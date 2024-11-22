@@ -1,0 +1,43 @@
+<section class="wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center mb-5">
+          <h5 class="display-4 text-dark font-weight-bolder">
+            {{categoryName}} Haberleri
+          </h5>
+        </div>
+      </div>
+      <div class="row">
+        <ng-container *ngFor="let item of headlineData">
+          <ng-container *ngTemplateOutlet="news; context: { item: item }"></ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </section>
+
+
+  <ng-template #news let-item="item">
+    <div class="col-lg-6 mb-4">
+      <div
+        class="card text-dark card-has-bg click-col"
+        [style.background-image]="'url(' + item.urlToImage + ')'"
+      >
+        <div class="card-img-overlay d-flex flex-column">
+          <div class="card-body">
+            <small class="card-meta mb-2">{{item.title}}</small>
+            <h6 class="card-title mt-3">
+              <p class="text-dark">{{item.description}}</p>
+            </h6>
+          </div>
+          <div class="card-footer">
+            <div class="media">
+              <div class="media-body">
+                <h6 class="my-0 text-dark d-block">{{item.author}}</h6>
+                <small><i class="far fa-clock"></i>{{ item.publishedAt | date:'short' }} </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>

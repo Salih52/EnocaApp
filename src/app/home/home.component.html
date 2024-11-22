@@ -1,0 +1,87 @@
+<div class="container">
+  <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" *ngIf="headlines.length > 0">
+      <div class="carousel-item active" *ngFor="let headline of headlines.slice(0,3); let i = index" [class.active]="i === 0">
+        <div class="card" style="max-width: 100%;background-color: rgb(242, 242, 242);">
+          <div class="row g-0">
+            <div class="col-md-6">
+              <img [src]="headline.urlToImage" class="img-fluid mt-5 rounded-start" alt="Slide image">
+            </div>
+            <div class="col-md-6">
+              <div class="card-body">
+                <h5 class="card-title">{{ headline.title }}</h5>
+                <p class="card-text">{{ headline.description }}</p>
+                <p class="card-text"><small class="text-body-secondary">{{ headline.publishedAt | date:'short' }}</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev custom-control" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <mat-icon class="icon">keyboard_arrow_left</mat-icon>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next custom-control" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <mat-icon class="icon">keyboard_arrow_right</mat-icon>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+<section class="wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col text-center mb-5">
+        <h5 class="display-4 text-dark font-weight-bolder">
+          İşte Diğer Başlıklar
+        </h5>
+      </div>
+    </div>
+    <div class="row">
+      <ng-container *ngFor="let item of paginatedHeadlines">
+        <ng-container *ngTemplateOutlet="news; context: { item: item }"></ng-container>
+      </ng-container>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <button class="btn" (click)="prevPage()" [disabled]="currentPage === 0">Previous</button>
+        <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+          <button class="btn" (click)="goToPage(i)" [class.active]="i === currentPage">{{ i + 1 }}</button>
+        </ng-container>
+        <button class="btn" (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Next</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #news let-item="item">
+  <div class="col-lg-4 mb-4">
+    <div
+      class="card text-dark card-has-bg click-col"
+      [style.background-image]="'url(' + item.urlToImage + ')'"
+    >
+      <div class="card-img-overlay d-flex flex-column">
+        <div class="card-body">
+          <small class="card-meta mb-2">{{item.title}}</small>
+          <h6 class="card-title mt-3">
+            <p class="text-dark">{{item.description}}</p>
+          </h6>
+        </div>
+        <div class="card-footer">
+          <div class="media">
+            <div class="media-body">
+              <h6 class="my-0 text-dark d-block">{{item.author}}</h6>
+              <small><i class="far fa-clock"></i>{{ item.publishedAt | date:'short' }} </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

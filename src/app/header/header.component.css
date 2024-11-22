@@ -1,0 +1,8 @@
+.nav-link.active {
+    font-weight: bold;
+    color: #007bff !important;
+  }
+  .search-bar {
+    width: 300px; /* Arama çubuğunun genişliğini artırın */
+  }
+  
